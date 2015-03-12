@@ -1,0 +1,21 @@
+{
+  "name": "ngBdFavorites",
+  "namelower": "ng-bd-favorites",
+  "version": "0.0.1",
+  "description": "Favorites system for angular websites",
+  "readme": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git@git.example.com:example.git"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-sass": "^1.3.3",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.1.1"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  }
+}
