@@ -7,31 +7,37 @@ angular.module('Favorites', ['ui.bootstrap'])
             MyFavorites.sync();
         }, true);
 
-        $rootScope.favorite = function(id,type)
+        $rootScope.favorite = function($event)
         {
-            MyFavorites.toggle({id:id,type:type});
+            var target = $event.currentTarget,
+                id = $(target).data('favid'),
+                type = $(target).data('favtype');
+            if(MyFavorites.toggle({id:id,type:type}))
+            {
+                $(target).addClass('disabled');
+            }else{
+                $(target).removeClass('disabled');
+            }
         }
 
-        $rootScope.removeFavorite = function(id,type)
-        {
-            MyFavorites.remove({id:id,type:type});
-        }
+        $('.fav-link').each(function(){
+
+            var fav = {
+                id: $(this).data('favid'),
+                type: $(this).data('favtype')
+            };
+
+            if(MyFavorites.isFavored(fav))
+            {
+                $(this).addClass('disabled');
+            }
+
+
+        });
+
 
     });
-angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal){
-
-    $scope.communities = [
-        {
-            name:'Com One'
-        },
-        {
-            name: 'Com Two'
-        },
-        {
-            name: 'Com Three'
-        }
-    ];
-
+angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal, MyFavorites){
 
     $scope.open = function(){
 
@@ -39,8 +45,11 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
             templateUrl: 'dashboardModal.html',
             controller: 'DashboardInstanceController',
             resolve: {
-                communities: function () {
-                    return $scope.communities;
+                favorites: function(){
+                    var promise = MyFavorites.loadFavorites();
+                    promise.success(function(data){
+                        return data;
+                    });
                 }
             }
         });
@@ -51,9 +60,9 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
 });
 
-angular.module('Favorites').controller('DashboardInstanceController',function($scope,$http,$modalInstance, communities){
+angular.module('Favorites').controller('DashboardInstanceController',function($scope,$http,$modalInstance, favorites){
 
-    $scope.communities = communities;
+    console.log(favorites);
 
     $scope.ok = function () {
         $modalInstance.close();
@@ -66,7 +75,7 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
 }).directive('favoriteItem', function(){
     return {
         template: '<div class="favorite-card">'+
-                    '<h4>{{com.name}}</h4>'+
+                    '<h4>{{fav.name}}</h4>'+
                     '<p></p>'+
                    '</div>'
     };
@@ -79,7 +88,11 @@ angular.module('Favorites').controller('FavoritesController',function($scope,$ht
 });
 angular.module('Favorites').service('MyFavorites',function($http){
 
-    this.favorites = [];
+    this.favorites = [],
+    this.communities = [],
+    this.models = [],
+    this.inventory = [],
+    this.communityModels = [];
 
     if(window.localStorage.getItem('favorites') === null)
     {
@@ -88,41 +101,59 @@ angular.module('Favorites').service('MyFavorites',function($http){
         this.favorites = JSON.parse(window.localStorage.getItem('favorites'));
     }
 
+
     this.toggle = function(fav)
     {
-        for(var i = 0;i < this.favorites.length; i++)
+        if(this.isFavored(fav))
         {
-            if(fav.id == this.favorites[i].id)
-            {
-                this.remove(fav);
-                return fav;
-            }
+            this.remove(fav);
+            return false;
         }
+
         this.add(fav);
-    }
+        return true;
+    };
 
     this.add = function(fav){
-        for(var i = 0;i < this.favorites.length; i++)
-        {
-            if(fav.id == this.favorites[i].id)
-                return this.favorites[i];
-        }
+
+        if(this.isFavored(fav))
+                return true;
+        console.log(this.favorites);
         this.favorites.push(fav);
-        return fav;
-    }
+
+        return true;
+    };
 
     this.remove = function(fav)
     {
-        for(var i = 0;i < this.favorites.length; i++)
-        {
-            if(fav.id == this.favorites[i].id)
-                this.favorites.splice(i,1);
+        for(var i = 0;i < this.favorites.length; i++) {
+            if (fav.id == this.favorites[i].id && fav.type == this.favorites[i].type) {
+                this.favorites.splice(i, 1);
+            }
         }
-    }
 
+        return false;
+    };
+
+    this.isFavored = function(fav)
+    {
+        for(var i = 0;i < this.favorites.length; i++){
+            if (fav.id == this.favorites[i].id && fav.type == this.favorites[i].type){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    this.loadFavorites = function()
+    {
+
+        return $http.get('http://104.236.107.163/API/loadFavorites.php?fav='+JSON.stringify(this.favorites));
+    };
 
     this.sync = function()
     {
+        this.loadFavorites();
         window.localStorage.setItem('favorites', JSON.stringify(this.favorites));
     }
 

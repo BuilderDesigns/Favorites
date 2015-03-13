@@ -7,14 +7,33 @@ angular.module('Favorites', ['ui.bootstrap'])
             MyFavorites.sync();
         }, true);
 
-        $rootScope.favorite = function(id,type)
+        $rootScope.favorite = function($event)
         {
-            MyFavorites.toggle({id:id,type:type});
+            var target = $event.currentTarget,
+                id = $(target).data('favid'),
+                type = $(target).data('favtype');
+            if(MyFavorites.toggle({id:id,type:type}))
+            {
+                $(target).addClass('disabled');
+            }else{
+                $(target).removeClass('disabled');
+            }
         }
 
-        $rootScope.removeFavorite = function(id,type)
-        {
-            MyFavorites.remove({id:id,type:type});
-        }
+        $('.fav-link').each(function(){
+
+            var fav = {
+                id: $(this).data('favid'),
+                type: $(this).data('favtype')
+            };
+
+            if(MyFavorites.isFavored(fav))
+            {
+                $(this).addClass('disabled');
+            }
+
+
+        });
+
 
     });

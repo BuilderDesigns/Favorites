@@ -1,17 +1,4 @@
-angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal){
-
-    $scope.communities = [
-        {
-            name:'Com One'
-        },
-        {
-            name: 'Com Two'
-        },
-        {
-            name: 'Com Three'
-        }
-    ];
-
+angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal, MyFavorites){
 
     $scope.open = function(){
 
@@ -19,8 +6,11 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
             templateUrl: 'dashboardModal.html',
             controller: 'DashboardInstanceController',
             resolve: {
-                communities: function () {
-                    return $scope.communities;
+                favorites: function(){
+                    var promise = MyFavorites.loadFavorites();
+                    promise.success(function(data){
+                        return data;
+                    });
                 }
             }
         });
@@ -31,9 +21,9 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
 });
 
-angular.module('Favorites').controller('DashboardInstanceController',function($scope,$http,$modalInstance, communities){
+angular.module('Favorites').controller('DashboardInstanceController',function($scope,$http,$modalInstance, favorites){
 
-    $scope.communities = communities;
+    console.log(favorites);
 
     $scope.ok = function () {
         $modalInstance.close();
@@ -46,7 +36,7 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
 }).directive('favoriteItem', function(){
     return {
         template: '<div class="favorite-card">'+
-                    '<h4>{{com.name}}</h4>'+
+                    '<h4>{{fav.name}}</h4>'+
                     '<p></p>'+
                    '</div>'
     };
