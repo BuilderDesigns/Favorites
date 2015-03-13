@@ -21,9 +21,14 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
 });
 
-angular.module('Favorites').controller('DashboardInstanceController',function($scope,$http,$modalInstance, favorites){
+angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, favorites, MyFavorites){
 
-    console.log(favorites);
+    var promise = MyFavorites.loadFavorites();
+
+    promise.success(function(data){
+        $scope.favorites = data;
+    });
+
 
     $scope.ok = function () {
         $modalInstance.close();

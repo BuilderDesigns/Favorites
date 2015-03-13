@@ -1,10 +1,6 @@
 angular.module('Favorites').service('MyFavorites',function($http){
 
-    this.favorites = [],
-    this.communities = [],
-    this.models = [],
-    this.inventory = [],
-    this.communityModels = [];
+    this.favorites = [];
 
     if(window.localStorage.getItem('favorites') === null)
     {
