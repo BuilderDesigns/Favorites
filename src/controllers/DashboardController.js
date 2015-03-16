@@ -4,30 +4,25 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
         var dashboardModal = $modal.open({
             templateUrl: 'dashboardModal.html',
-            controller: 'DashboardInstanceController',
-            resolve: {
-                favorites: function(){
-                    var promise = MyFavorites.loadFavorites();
-                    promise.success(function(data){
-                        return data;
-                    });
-                }
-            }
+            controller: 'DashboardInstanceController'
         });
 
     }
 
 
-
 });
 
-angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, favorites, MyFavorites){
+angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, MyFavorites){
 
-    var promise = MyFavorites.loadFavorites();
+    var removeLoading = function(){
+        $('#loading-overlay').hide();
+    };
 
-    promise.success(function(data){
-        $scope.favorites = data;
-    });
+    MyFavorites.loadFavorites(removeLoading);
+
+
+
+    $scope.favorites = MyFavorites.favorites;
 
 
     $scope.ok = function () {
@@ -38,11 +33,29 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
         $modalInstance.dismiss('cancel');
     };
 
-}).directive('favoriteItem', function(){
+}).directive('invItem', ['MyFavorites', function(MyFavorites){
+
+    return {
+        template: '<h4>{{inv.data.inv_address}}</h4>'
+                +'<img ng-src="{{inv.data.inv_image}}"width="50" /><br/>'
+                +'<button ng-click="remove(inv)">Remove</button>',
+        link: function(scope, elem, attrs){
+            scope.remove = function(inv)
+            {
+
+                MyFavorites.toggle({
+                    type:"inv",
+                    id:inv.id
+                });
+            }
+        }
+
+    };
+}]).directive('comItem', function(){
     return {
         template: '<div class="favorite-card">'+
-                    '<h4>{{fav.name}}</h4>'+
-                    '<p></p>'+
-                   '</div>'
+        '<h4>{{com.com_name}}</h4>'+
+        '<p></p>'+
+        '</div>'
     };
 });

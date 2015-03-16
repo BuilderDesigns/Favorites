@@ -18,22 +18,27 @@ angular.module('Favorites', ['ui.bootstrap'])
             }else{
                 $(target).removeClass('disabled');
             }
+        };
+
+        $rootScope.updateLinks = function(){
+            $('.fav-link').each(function(){
+                console.log('favorite looped');
+                var fav = {
+                    id: $(this).data('favid'),
+                    type: $(this).data('favtype')
+                };
+
+                if(MyFavorites.isFavored(fav))
+                {
+                    $(this).addClass('disabled');
+                }
+
+
+            });
         }
-
-        $('.fav-link').each(function(){
-
-            var fav = {
-                id: $(this).data('favid'),
-                type: $(this).data('favtype')
-            };
-
-            if(MyFavorites.isFavored(fav))
-            {
-                $(this).addClass('disabled');
-            }
+        $rootScope.updateLinks();
 
 
-        });
 
 
     });
