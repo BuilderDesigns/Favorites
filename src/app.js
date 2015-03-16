@@ -1,41 +1,68 @@
 angular.module('Favorites', ['ui.bootstrap'])
 
-    .run(function($rootScope,MyFavorites) {
+    .run(function($rootScope,MyFavorites, Fav) {
 
         $rootScope.favorites = MyFavorites.favorites;
         $rootScope.$watch('favorites', function(){
             MyFavorites.sync();
         }, true);
 
-        $rootScope.favorite = function($event)
+        $rootScope.favorite = function(fav,link_element)
         {
-            var target = $event.currentTarget,
-                id = $(target).data('favid'),
-                type = $(target).data('favtype');
-            if(MyFavorites.toggle({id:id,type:type}))
-            {
-                $(target).addClass('disabled');
-            }else{
-                $(target).removeClass('disabled');
+
+            if(MyFavorites.toggle(fav)) {
+
+                $(link_element).addClass('disabled');
+
+            } else {
+
+                $(link_element).removeClass('disabled');
             }
+
         };
 
-        $rootScope.updateLinks = function(){
-            $('.fav-link').each(function(){
-                console.log('favorite looped');
-                var fav = {
-                    id: $(this).data('favid'),
-                    type: $(this).data('favtype')
-                };
+        $('.fav-link').each(function(){
 
-                if(MyFavorites.isFavored(fav))
+            $(this).on('click',function(){
+
+                if($(this).data('favid') && $(this).data('favtype'))
                 {
+
+                    var id = $(this).data('favid'),
+
+                        type = $(this).data('favtype'),
+
+                        favItem = $('.fav-item[data-favid="'+id+'"][data-favtype="'+type+'"]'),
+
+                        fav = Fav.fromHTMLElement(favItem);
+
+                    $rootScope.favorite(fav, this);
+
+                } else {
+
+                    var favItem = $(this).parents('.fav-item').first(),
+
+                        fav = Fav.fromHTMLElement(favItem);
+
+                    $rootScope.favorite(fav,this);
+
+                }
+            });
+        });
+
+        $rootScope.updateLinks = function(){
+
+            $('.fav-item').each(function(){
+
+                var fav = Fav.fromHTMLElement(this);
+
+                if(MyFavorites.isFavored(fav)) {
+
                     $(this).addClass('disabled');
                 }
-
-
             });
-        }
+        };
+
         $rootScope.updateLinks();
 
 

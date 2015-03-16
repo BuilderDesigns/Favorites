@@ -1,41 +1,68 @@
 angular.module('Favorites', ['ui.bootstrap'])
 
-    .run(function($rootScope,MyFavorites) {
+    .run(function($rootScope,MyFavorites, Fav) {
 
         $rootScope.favorites = MyFavorites.favorites;
         $rootScope.$watch('favorites', function(){
             MyFavorites.sync();
         }, true);
 
-        $rootScope.favorite = function($event)
+        $rootScope.favorite = function(fav,link_element)
         {
-            var target = $event.currentTarget,
-                id = $(target).data('favid'),
-                type = $(target).data('favtype');
-            if(MyFavorites.toggle({id:id,type:type}))
-            {
-                $(target).addClass('disabled');
-            }else{
-                $(target).removeClass('disabled');
+
+            if(MyFavorites.toggle(fav)) {
+
+                $(link_element).addClass('disabled');
+
+            } else {
+
+                $(link_element).removeClass('disabled');
             }
+
         };
 
-        $rootScope.updateLinks = function(){
-            $('.fav-link').each(function(){
-                console.log('favorite looped');
-                var fav = {
-                    id: $(this).data('favid'),
-                    type: $(this).data('favtype')
-                };
+        $('.fav-link').each(function(){
 
-                if(MyFavorites.isFavored(fav))
+            $(this).on('click',function(){
+
+                if($(this).data('favid') && $(this).data('favtype'))
                 {
+
+                    var id = $(this).data('favid'),
+
+                        type = $(this).data('favtype'),
+
+                        favItem = $('.fav-item[data-favid="'+id+'"][data-favtype="'+type+'"]'),
+
+                        fav = Fav.fromHTMLElement(favItem);
+
+                    $rootScope.favorite(fav, this);
+
+                } else {
+
+                    var favItem = $(this).parents('.fav-item').first(),
+
+                        fav = Fav.fromHTMLElement(favItem);
+
+                    $rootScope.favorite(fav,this);
+
+                }
+            });
+        });
+
+        $rootScope.updateLinks = function(){
+
+            $('.fav-item').each(function(){
+
+                var fav = Fav.fromHTMLElement(this);
+
+                if(MyFavorites.isFavored(fav)) {
+
                     $(this).addClass('disabled');
                 }
-
-
             });
-        }
+        };
+
         $rootScope.updateLinks();
 
 
@@ -109,7 +136,67 @@ angular.module('Favorites').controller('FavoritesController',function($scope,$ht
 
 
 });
-angular.module('Favorites').service('MyFavorites',function($http){
+'use strict';
+angular.module('Favorites').factory('Fav', function() {
+
+    function Fav(id,type,title,lis,thumbnail){
+        this.id = id;
+        this.type = type;
+        this.title = title;
+        this.lis = lis;
+        this.thumbnail = thumbnail
+    }
+
+    Fav.prototype = {
+        getId: function(){
+            return this.id;
+        },
+        getType: function(){
+            return this.type;
+        },
+        getTitle: function(){
+            return this.title;
+        },
+        getLis: function(){
+            return this.lis;
+        },
+        getThumbnail: function(){
+            return this.thumbnail;
+        },
+        setTitle: function(title){
+            this.title = title;
+        },
+        setLis: function(lis){
+            this.lis = lis;
+        },
+        setThumbnail: function(thumbnail){
+            this.thumbnail = thumbnail;
+        }
+
+    };
+
+    Fav.fromHTMLElement = function(element){
+        var id = $(element).data('favid'),
+            type = $(element).data('favtype'),
+            lis = [];
+
+        $(element).find('.fav-li').each(function() { lis.push($(this).text()) });
+
+        return new Fav(
+            id,
+            type,
+            $(element).find('.fav-title').first().text(),
+            lis,
+            $(element).find('.fav-image').first().attr('src')
+        );
+
+    };
+
+
+    return Fav;
+});
+
+angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
 
     this.favorites = [];
 
@@ -135,10 +222,16 @@ angular.module('Favorites').service('MyFavorites',function($http){
 
     this.add = function(fav){
 
+
+
         if(this.isFavored(fav))
                 return true;
 
+        console.log(fav);
+
         this.favorites.push(fav);
+
+        console.log(this.favorites);
 
         return true;
     };
@@ -173,52 +266,14 @@ angular.module('Favorites').service('MyFavorites',function($http){
 
 
 
-        $http.get('http://104.236.107.163/API/loadFavorites.php?fav='+JSON.stringify(this.favorites)).success(function(data){
 
-
-            for(var i = 0;i < data.invs.length; i ++) {
-                for(var x = 0;x < favs.length; x ++) {
-                    if(data.invs[i].inv_id == favs[x].id && favs[x].type == 'inv') {
-                        favs[x].data = data.invs[i];
-                    }
-                }
-            }
-            for(var i = 0;i < data.coms.length; i ++) {
-                for(var x = 0;x < favs.length; x ++) {
-                    if(data.coms[i].com_id == favs[x].id && favs[x].type == 'com') {
-                        favs[x].data = data.coms[i];
-                    }
-                }
-            }
-
-            for(var i = 0;i < data.mods.length; i ++) {
-                for(var x = 0;x < favs.length; x ++) {
-                    if(data.mods[i].mod_id == favs[x].id && favs[x].type == 'mod') {
-                        favs[x].data = data.mods[i];
-                    }
-                }
-            }
-
-            that.favorites = favs;
-            if(callback)
-            {
-                callback();
-            }
-        });
-    };
-
-    this.favoriteInvs = function()
-    {
-        var favs = this.favorites,
-            inv_favs = [];
-        for(var x = 0;x < favs.length; x ++) {
-            if(favs[x].type = 'inv') {
-                inv_favs.push(fav[x]);
-            }
+        if(callback)
+        {
+            callback();
         }
-        return inv_favs;
 
     };
+
 
     this.sync = function()
     {
@@ -226,4 +281,4 @@ angular.module('Favorites').service('MyFavorites',function($http){
     }
 
 
-});
+}]);
