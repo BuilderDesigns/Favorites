@@ -9,33 +9,6 @@ angular.module('Favorites').factory('Fav', function() {
         this.thumbnail = thumbnail
     }
 
-    Fav.prototype = {
-        getId: function(){
-            return this.id;
-        },
-        getType: function(){
-            return this.type;
-        },
-        getTitle: function(){
-            return this.title;
-        },
-        getLis: function(){
-            return this.lis;
-        },
-        getThumbnail: function(){
-            return this.thumbnail;
-        },
-        setTitle: function(title){
-            this.title = title;
-        },
-        setLis: function(lis){
-            this.lis = lis;
-        },
-        setThumbnail: function(thumbnail){
-            this.thumbnail = thumbnail;
-        }
-
-    };
 
     Fav.fromHTMLElement = function(element){
         var id = $(element).data('favid'),

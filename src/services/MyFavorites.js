@@ -1,4 +1,4 @@
-angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
+angular.module('Favorites').service('MyFavorites',function($http){
 
     this.favorites = [];
 
@@ -12,28 +12,26 @@ angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
 
     this.toggle = function(fav)
     {
-        if(this.isFavored(fav))
-        {
+        if(this.isFavored(fav)) {
+
             this.remove(fav);
+
             return false;
         }
 
         this.add(fav);
+
         return true;
     };
 
     this.add = function(fav){
 
+        if(this.isFavored(fav)) {
 
-
-        if(this.isFavored(fav))
-                return true;
-
-        console.log(fav);
+            return true;
+        }
 
         this.favorites.push(fav);
-
-        console.log(this.favorites);
 
         return true;
     };
@@ -42,11 +40,13 @@ angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
     {
 
         for(var i = 0;i < this.favorites.length; i++) {
+
             if (fav.id == this.favorites[i].id && fav.type == this.favorites[i].type) {
 
                 this.favorites.splice(i, 1);
             }
         }
+
         return false;
     };
 
@@ -54,10 +54,13 @@ angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
     this.isFavored = function(fav)
     {
         for(var i = 0;i < this.favorites.length; i++){
+
             if (fav.id == this.favorites[i].id && fav.type == this.favorites[i].type){
+
                 return true;
             }
         }
+
         return false;
     };
 
@@ -67,10 +70,8 @@ angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
             that = this;
 
 
+        if(callback) {
 
-
-        if(callback)
-        {
             callback();
         }
 
@@ -83,4 +84,4 @@ angular.module('Favorites').service('MyFavorites',['Fav', function($http, Fav){
     }
 
 
-}]);
+});
