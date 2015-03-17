@@ -97,7 +97,7 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, MyFavorites){
 
     $scope.favorites = MyFavorites.favorites;
-    console.log($scope.favorites);
+
     $scope.ok = function () {
 
         $modalInstance.close();
