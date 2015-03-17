@@ -1,4 +1,4 @@
-angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates'])
+angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filter'])
     .constant('FavConfig',{
         EVENTS:{
             FAV_ADDED:          "favoriteAdded",
@@ -86,7 +86,7 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
         var dashboardModal = $modal.open({
 
-            templateUrl: 'dashboardModal.html',
+            templateUrl: 'FavoritesDashboardModal',
 
             controller: 'DashboardInstanceController'
 

@@ -1,14 +1,15 @@
 {
   "name": "ngBdFavorites",
   "version": "1.0.0",
-  "main": "path/to/main.css",
+  "main": "dist/ngFavorites.js",
   "ignore": [
     ".jshintrc",
     "**/*.txt"
   ],
   "dependencies": {
     "angularjs": "~1.3.14",
-    "angular-bootstrap": "~0.12.1"
+    "angular-bootstrap": "~0.12.1",
+    "angular-filter": "~0.5.4"
   },
   "devDependencies": {}
 }

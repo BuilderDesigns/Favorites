@@ -1,4 +1,4 @@
-angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates'])
+angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filter'])
     .constant('FavConfig',{
         EVENTS:{
             FAV_ADDED:          "favoriteAdded",

@@ -1,13 +1,19 @@
 <div ng-controller="DashboardController">
-    <script type="text/ng-template" id="dashboardModal.html">
+    <script type="text/ng-template" id="FavoritesDashboardModal">
         <div class="modal-header">
             <h3 class="modal-title">Favorites Dashboard</h3>
         </div>
         <div class="modal-body">
 
-            <div ng-repeat="fav in favorites">
-                <fav-item></fav-item>
+            <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
+                <h2>{{key}}</h2>
+                <div ng-repeat="fav in value">
+                    <fav-item></fav-item>
+                </div>
             </div>
+
+
+
 
         </div>
         <div class="modal-footer">

@@ -3,7 +3,10 @@ var gulp = require('gulp'),
     pipe = require('gulp-pipe'),
     watch = require('gulp-watch'),
     less = require('gulp-less'),
-    html2js = require('gulp-html2js');
+    html2js = require('gulp-html2js'),
+    mainBowerFiles = require('main-bower-files'),
+    uglify = require('gulp-uglify'),
+    filter= require('gulp-filter');
 
 
 
@@ -15,6 +18,13 @@ var paths = {
 
 };
 
+
+gulp.task('bower', function() {
+    gulp.src(mainBowerFiles())
+        .pipe(filter('*.min.js'))
+        .pipe(concat('lib.min.js'))
+        .pipe(gulp.dest(paths.dest));
+});
 
 gulp.task('concat',function(){
     gulp.src(paths.app)
@@ -40,7 +50,7 @@ gulp.task('fixtures', function() {
 })
 
 gulp.task('watch', function(){
-    gulp.watch([paths.app, paths.less, paths.fixtures], ['concat','less','fixtures']);
+    gulp.watch([paths.app, paths.less, paths.fixtures], ['concat','less','fixtures','bower']);
 });
 
 
