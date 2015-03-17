@@ -1,5 +1,7 @@
 angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal, MyFavorites){
 
+    $scope.favorites = MyFavorites.favorites;
+
     $scope.open = function(){
 
         var dashboardModal = $modal.open({
@@ -29,7 +31,7 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
 }).directive('favItem', ['MyFavorites','FavConfig',function(MyFavorites,FavConfig){
 
     return {
-        template: FavConfig.TEMPLATES.FAVORITE_ITEM,
+        templateUrl: 'templates/favoriteItem.html',
 
         link: function(scope, elem, attrs){
 

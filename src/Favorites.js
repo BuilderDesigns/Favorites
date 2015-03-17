@@ -9,13 +9,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
             SAVE_EVENT:         "favoritesSaved"
         },
         TEMPLATES:{
-            "FAVORITE_ITEM":    '<div class="fav_dashboard_item"><h4>{{fav.title}}</h4>'
-                                    +'<img ng-src="{{fav.thumbnail}}"width="50" /><br/>'
-                                    +'<ul>'
-                                        +'<li ng-repeat="li in fav.lis">{{li}}</li>'
-                                    +'</ul>'
-                                    +'<button class="btn" ng-click="remove(fav)">Remove</button>'
-                                +'</div>'
+            "FAVORITE_ITEM":''
         },
         CSS_CLASSES:{
             DISABLED_FAV_LINK: "fav_disabled"

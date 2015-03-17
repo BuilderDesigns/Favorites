@@ -1,29 +1,48 @@
 <div class="favorites-tab">
+
     <div ng-controller="DashboardController">
+
         <script type="text/ng-template" id="FavoritesDashboardModal">
+
             <div class="modal-header">
+
                 <h3 class="modal-title">Favorites Dashboard</h3>
+
             </div>
+
             <div class="modal-body">
 
                 <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
-                    <h2>{{key}}</h2>
+
+                    <div class="fav-type-title"><h4>{{key}}</h4></div>
+
                     <div ng-repeat="fav in value track by $index">
+
                         <fav-item></fav-item>
+
                     </div>
+
                 </div>
 
-
-
-
             </div>
+
             <div class="modal-footer">
+
                 <button class="btn btn-primary" ng-click="ok()">OK</button>
+
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+
             </div>
+
         </script>
 
-        <button class="btn btn-default" ng-click="open()">My Favorites</button>
+        <button class="btn btn-default" ng-click="open()" ng-if="favorites.length">
+
+            My Favorites
+
+            <badge class="fav-count-badge">{{favorites.length}}</badge>
+
+        </button>
 
     </div>
 </div>

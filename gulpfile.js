@@ -14,7 +14,7 @@ var paths = {
     app: ['./src/Favorites.js','./src/controllers/*.js','./src/services/*.js'],
     dest: './dist',
     less: ['./src/less/*.less'],
-    fixtures: ['./src/fixtures/*.html']
+    fixtures: ['./templates/*.html']
 
 };
 
@@ -45,7 +45,7 @@ gulp.task('fixtures', function() {
             outputModuleName: 'Favorites.templates',
             useStrict: true
         }))
-        .pipe(concat('template.js'))
+        .pipe(concat('templates.js'))
         .pipe(gulp.dest(paths.dest))
 })
 

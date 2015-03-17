@@ -9,13 +9,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
             SAVE_EVENT:         "favoritesSaved"
         },
         TEMPLATES:{
-            "FAVORITE_ITEM":    '<div class="fav_dashboard_item"><h4>{{fav.title}}</h4>'
-                                    +'<img ng-src="{{fav.thumbnail}}"width="50" /><br/>'
-                                    +'<ul>'
-                                        +'<li ng-repeat="li in fav.lis">{{li}}</li>'
-                                    +'</ul>'
-                                    +'<button class="btn" ng-click="remove(fav)">Remove</button>'
-                                +'</div>'
+            "FAVORITE_ITEM":''
         },
         CSS_CLASSES:{
             DISABLED_FAV_LINK: "fav_disabled"
@@ -82,6 +76,8 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 );
 angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal, MyFavorites){
 
+    $scope.favorites = MyFavorites.favorites;
+
     $scope.open = function(){
 
         var dashboardModal = $modal.open({
@@ -111,7 +107,7 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
 }).directive('favItem', ['MyFavorites','FavConfig',function(MyFavorites,FavConfig){
 
     return {
-        template: FavConfig.TEMPLATES.FAVORITE_ITEM,
+        templateUrl: 'templates/favoriteItem.html',
 
         link: function(scope, elem, attrs){
 

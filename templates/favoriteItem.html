@@ -1,0 +1,26 @@
+
+<div class="fav_dashboard_item">
+
+    <div class="fav-item-col1">
+
+        <img ng-src="{{fav.thumbnail}}"width="50" />
+
+    </div>
+
+    <div class="fav-item-col2">
+
+        <h4>{{fav.title}}</h4>
+
+        <ul>
+            <li ng-repeat="li in fav.lis">{{li}}</li>
+        </ul>
+
+    </div>
+
+    <div class="fav-item-col3">
+
+        <button class="btn" ng-click="remove(fav)">Remove</button>
+
+    </div>
+
+</div>
