@@ -3,13 +3,13 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
     $scope.open = function(){
 
         var dashboardModal = $modal.open({
+
             templateUrl: 'dashboardModal.html',
+
             controller: 'DashboardInstanceController'
+
         });
-
     }
-
-
 });
 
 angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, MyFavorites){
@@ -23,14 +23,16 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
     $scope.favorites = MyFavorites.favorites;
 
     $scope.ok = function () {
+
         $modalInstance.close();
     };
 
     $scope.cancel = function () {
+
         $modalInstance.dismiss('cancel');
     };
 
-}).directive('invItem', ['MyFavorites', function(MyFavorites){
+}).directive('favItem', ['MyFavorites', function(MyFavorites){
 
     return {
         template: '<h4>{{inv.data.inv_address}}</h4>'
@@ -49,11 +51,4 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
         }
 
     };
-}]).directive('comItem', function(){
-    return {
-        template: '<div class="favorite-card">'+
-        '<h4>{{com.com_name}}</h4>'+
-        '<p></p>'+
-        '</div>'
-    };
-});
+}]);

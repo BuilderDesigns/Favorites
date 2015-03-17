@@ -4,73 +4,56 @@ angular.module('Favorites', ['ui.bootstrap'])
 
     $rootScope.favorites = MyFavorites.favorites;
 
+    $rootScope.setupLinks = function(){
+        $('.fav-item').each(function(){
+            var fav = Fav.fromHTMLElement(this);
+            $(this).data('fav',fav);
+
+        });
+    };
+
+    $rootScope.setupLinks();
+
     $rootScope.$watch('favorites', function(){
-        console.log('favorites changed');
+
         MyFavorites.sync();
+
+        $rootScope.updateLinks();
 
     }, true);
 
-    $rootScope.favorite = function(fav,link_element)
-    {
-
-        if(MyFavorites.toggle(fav)) {
-
-            $(link_element).addClass('disabled');
-
-        } else {
-
-            $(link_element).removeClass('disabled');
-        }
-
-    };
 
     $('.fav-link').each(function(){
 
         $(this).on('click',function(){
 
-            if($(this).data('favid') && $(this).data('favtype'))
-            {
+            var fav = Fav.fromFavLink(this);
 
-                var id = $(this).data('favid'),
-
-                    type = $(this).data('favtype'),
-
-                    favItem = $('.fav-item[data-favid="'+id+'"][data-favtype="'+type+'"]'),
-
-                    fav = $(favItem).data('fav');
-
-                $rootScope.favorite(fav, this);
-
-            } else {
-
-                var favItem = $(this).parents('.fav-item').first(),
-
-                    fav = $(favItem).data('fav');
-
-                $rootScope.favorite(fav,this);
-
-            }
+            MyFavorites.toggle(fav);
 
             $rootScope.$digest();
-            
         });
     });
 
     $rootScope.updateLinks = function(){
 
-        $('.fav-item').each(function(){
+        $('.fav-link').each(function(){
 
-            var fav = Fav.fromHTMLElement(this);
-
-            $(this).data('fav',fav);
+            var fav = Fav.fromFavLink(this);
 
             if(MyFavorites.isFavored(fav)) {
 
                 $(this).addClass('disabled');
+
+            } else {
+
+                $(this).removeClass('disabled');
             }
         });
     };
 
-    $rootScope.updateLinks();
+
+
+
 
 });

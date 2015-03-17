@@ -27,6 +27,28 @@ angular.module('Favorites').factory('Fav', function() {
 
     };
 
+    Fav.fromFavLink = function(element){
+
+        if($(element).data('favid') && $(element).data('favtype'))
+        {
+            var id = $(element).data('favid'),
+
+                type = $(element).data('favtype'),
+
+                favItem = $('.fav-item[data-favid="'+id+'"][data-favtype="'+type+'"]'),
+
+                fav = $(favItem).data('fav');
+
+        } else {
+
+            var favItem = $(element).parents('.fav-item').first(),
+
+                fav = $(favItem).data('fav');
+        }
+
+        return fav;
+    };
+
 
     return Fav;
 });
