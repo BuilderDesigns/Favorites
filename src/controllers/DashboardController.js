@@ -35,7 +35,6 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
 
             scope.remove = function(fav)
             {
-                console.log(fav);
                 MyFavorites.toggle(fav);
             }
         }
