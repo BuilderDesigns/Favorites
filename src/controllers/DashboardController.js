@@ -14,14 +14,8 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
 angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, MyFavorites){
 
-    var removeLoading = function(){
-        $('#loading-overlay').hide();
-    };
-
-    MyFavorites.loadFavorites(removeLoading);
-
     $scope.favorites = MyFavorites.favorites;
-
+    console.log($scope.favorites);
     $scope.ok = function () {
 
         $modalInstance.close();
@@ -32,21 +26,17 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
         $modalInstance.dismiss('cancel');
     };
 
-}).directive('favItem', ['MyFavorites', function(MyFavorites){
+}).directive('favItem', ['MyFavorites','FavConfig',function(MyFavorites,FavConfig){
 
     return {
-        template: '<h4>{{inv.data.inv_address}}</h4>'
-                +'<img ng-src="{{inv.data.inv_image}}"width="50" /><br/>'
-                +'<button ng-click="remove(inv)">Remove</button>',
+        template: FavConfig.TEMPLATES.FAVORITE_ITEM,
 
         link: function(scope, elem, attrs){
 
-            scope.remove = function(inv)
+            scope.remove = function(fav)
             {
-                MyFavorites.toggle({
-                    type:"inv",
-                    id:inv.id
-                });
+                console.log(fav);
+                MyFavorites.toggle(fav);
             }
         }
 

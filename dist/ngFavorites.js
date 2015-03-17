@@ -1,62 +1,80 @@
 angular.module('Favorites', ['ui.bootstrap'])
+    .constant('FavConfig',{
+        EVENTS:{
+            FAV_ADDED:          "favoriteAdded",
+            FAV_REMOVE:         "favoriteRemoved",
+            DASHBOARD_OPENED:   "dashboardOpened",
+            DASHBOARD_CANCELED: "dashboardCanceled",
+            DASHBOARD_OK:       "dashboardOk"
+        },
+        TEMPLATES:{
+            "FAVORITE_ITEM":    '<div class="fav_dashboard_item"><h4>{{fav.title}}</h4>'
+                                    +'<img ng-src="{{fav.thumbnail}}"width="50" /><br/>'
+                                    +'<ul>'
+                                        +'<li ng-repeat="li in fav.lis">{{li}}</li>'
+                                    +'</ul>'
+                                    +'<button class="btn" ng-click="remove(fav)">Remove</button>'
+                                +'</div>'
+        },
+        CSS_CLASSES:{
+            DISABLED_FAV_LINK: "disabled"
+        }
+    })
+    .run(function($rootScope, MyFavorites, FavConfig, Fav) {
 
-.run(function($rootScope, MyFavorites, Fav) {
+        $rootScope.favorites = MyFavorites.favorites;
 
-    $rootScope.favorites = MyFavorites.favorites;
+        $rootScope.setupLinks = function(){
 
-    $rootScope.setupLinks = function(){
-        $('.fav-item').each(function(){
-            var fav = Fav.fromHTMLElement(this);
-            $(this).data('fav',fav);
+            $('.fav-item').each(function(){
 
-        });
-    };
+                var fav = Fav.fromHTMLElement(this);
 
-    $rootScope.setupLinks();
+                $(this).data('fav',fav);
+            });
+        };
 
-    $rootScope.$watch('favorites', function(){
+        $rootScope.setupLinks();
 
-        MyFavorites.sync();
+        $rootScope.$watch('favorites', function(){
 
-        $rootScope.updateLinks();
+            MyFavorites.sync();
 
-    }, true);
+            $rootScope.updateLinks();
 
-
-    $('.fav-link').each(function(){
-
-        $(this).on('click',function(){
-
-            var fav = Fav.fromFavLink(this);
-
-            MyFavorites.toggle(fav);
-
-            $rootScope.$digest();
-        });
-    });
-
-    $rootScope.updateLinks = function(){
+        }, true);
 
         $('.fav-link').each(function(){
 
-            var fav = Fav.fromFavLink(this);
+            $(this).on('click',function(){
 
-            if(MyFavorites.isFavored(fav)) {
+                var fav = Fav.fromFavLink(this);
 
-                $(this).addClass('disabled');
+                MyFavorites.toggle(fav);
 
-            } else {
-
-                $(this).removeClass('disabled');
-            }
+                $rootScope.$digest();
+            });
         });
-    };
 
+        $rootScope.updateLinks = function(){
 
+            $('.fav-link').each(function(){
 
+                var fav = Fav.fromFavLink(this);
 
+                if(MyFavorites.isFavored(fav)) {
 
-});
+                    $(this).addClass(FavConfig.CSS_CLASSES.DISABLED_FAV_LINK);
+
+                } else {
+
+                    $(this).removeClass(FavConfig.CSS_CLASSES.DISABLED_FAV_LINK);
+                }
+            });
+        };
+    } // end .run
+
+);
 angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal, MyFavorites){
 
     $scope.open = function(){
@@ -73,14 +91,8 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
 angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, MyFavorites){
 
-    var removeLoading = function(){
-        $('#loading-overlay').hide();
-    };
-
-    MyFavorites.loadFavorites(removeLoading);
-
     $scope.favorites = MyFavorites.favorites;
-
+    console.log($scope.favorites);
     $scope.ok = function () {
 
         $modalInstance.close();
@@ -91,21 +103,17 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
         $modalInstance.dismiss('cancel');
     };
 
-}).directive('favItem', ['MyFavorites', function(MyFavorites){
+}).directive('favItem', ['MyFavorites','FavConfig',function(MyFavorites,FavConfig){
 
     return {
-        template: '<h4>{{inv.data.inv_address}}</h4>'
-                +'<img ng-src="{{inv.data.inv_image}}"width="50" /><br/>'
-                +'<button ng-click="remove(inv)">Remove</button>',
+        template: FavConfig.TEMPLATES.FAVORITE_ITEM,
 
         link: function(scope, elem, attrs){
 
-            scope.remove = function(inv)
+            scope.remove = function(fav)
             {
-                MyFavorites.toggle({
-                    type:"inv",
-                    id:inv.id
-                });
+                console.log(fav);
+                MyFavorites.toggle(fav);
             }
         }
 
@@ -235,19 +243,6 @@ angular.module('Favorites').service('MyFavorites',function($http){
         }
 
         return false;
-    };
-
-    this.loadFavorites = function(callback)
-    {
-        var favs = this.favorites,
-            that = this;
-
-
-        if(callback) {
-
-            callback();
-        }
-
     };
 
 

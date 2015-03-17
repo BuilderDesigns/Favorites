@@ -64,19 +64,6 @@ angular.module('Favorites').service('MyFavorites',function($http){
         return false;
     };
 
-    this.loadFavorites = function(callback)
-    {
-        var favs = this.favorites,
-            that = this;
-
-
-        if(callback) {
-
-            callback();
-        }
-
-    };
-
 
     this.sync = function()
     {
