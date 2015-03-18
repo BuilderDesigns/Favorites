@@ -27,9 +27,17 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
             $('.fav-item').each(function(){
 
-                var fav = Fav.fromHTMLElement(this);
 
-                $(this).data('fav',fav);
+                if($(this).data('fav'))
+                {
+
+                } else {
+
+                    var fav = Fav.fromHTMLElement(this);
+
+                    $(this).data('fav',fav);
+                }
+
             });
         };
 

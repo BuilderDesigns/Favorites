@@ -27,9 +27,17 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
             $('.fav-item').each(function(){
 
-                var fav = Fav.fromHTMLElement(this);
 
-                $(this).data('fav',fav);
+                if($(this).data('fav'))
+                {
+
+                } else {
+
+                    var fav = Fav.fromHTMLElement(this);
+
+                    $(this).data('fav',fav);
+                }
+
             });
         };
 
@@ -127,12 +135,13 @@ angular.module('Favorites').controller('FavoritesController',function($scope,$ht
 'use strict';
 angular.module('Favorites').factory('Fav', function() {
 
-    function Fav(id,type,title,lis,thumbnail){
+    function Fav(id,type,title,lis,thumbnail,url){
         this.id = id;
         this.type = type;
         this.title = title;
         this.lis = lis;
-        this.thumbnail = thumbnail
+        this.thumbnail = thumbnail;
+        this.url = url;
     }
 
 
@@ -148,12 +157,14 @@ angular.module('Favorites').factory('Fav', function() {
             type,
             $(element).find('.fav-title').first().text(),
             lis,
-            $(element).find('.fav-image').first().attr('src')
+            $(element).find('.fav-image').first().attr('src'),
+            $(element).find('.fav-url').first().attr('href')
         );
 
     };
 
     Fav.fromFavLink = function(element){
+
 
         if($(element).data('favid') && $(element).data('favtype'))
         {
@@ -161,18 +172,36 @@ angular.module('Favorites').factory('Fav', function() {
 
                 type = $(element).data('favtype'),
 
-                favItem = $('.fav-item[data-favid="'+id+'"][data-favtype="'+type+'"]'),
+                favItem = $('.fav-item[data-favid="'+id+'"][data-favtype="'+type+'"]');
 
-                fav = $(favItem).data('fav');
+            return $(favItem).data('fav');
 
-        } else {
-
-            var favItem = $(element).parents('.fav-item').first(),
-
-                fav = $(favItem).data('fav');
         }
 
-        return fav;
+        var favItem = $(element).parents('.fav-item').first();
+
+        if($(favItem).data('favjson'))
+        {
+            return Fav.fromJson($(favItem).data('favjson'));
+        }
+
+        return $(favItem).data('fav');
+
+
+    };
+
+    Fav.fromJson = function(json)
+    {
+
+        return new Fav(
+            json.id,
+            json.type,
+            json.title,
+            json.lis,
+            json.thumbnail,
+            json.url
+        );
+
     };
 
 
