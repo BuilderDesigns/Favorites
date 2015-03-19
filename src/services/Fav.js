@@ -53,7 +53,6 @@ angular.module('Favorites').factory('Fav', function() {
 
         return $(favItem).data('fav');
 
-
     };
 
     Fav.fromJson = function(json)

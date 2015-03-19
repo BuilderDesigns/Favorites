@@ -21,8 +21,9 @@ var paths = {
 
 gulp.task('bower', function() {
     gulp.src(mainBowerFiles())
-        .pipe(filter('*.min.js'))
+        .pipe(filter('*.js'))
         .pipe(concat('lib.min.js'))
+        .pipe(uglify())
         .pipe(gulp.dest(paths.dest));
 });
 

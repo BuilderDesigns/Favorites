@@ -12,9 +12,15 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
         });
     }
+
+
+
+
 });
 
-angular.module('Favorites').controller('DashboardInstanceController',function($scope, $http, $modalInstance, MyFavorites){
+angular.module('Favorites').controller(
+    'DashboardInstanceController',
+    function($scope, $http, $modalInstance, MyFavorites, FavConfig,$templateCache){
 
     $scope.favorites = MyFavorites.favorites;
 
@@ -27,6 +33,58 @@ angular.module('Favorites').controller('DashboardInstanceController',function($s
 
         $modalInstance.dismiss('cancel');
     };
+
+    $scope.print = function(){
+
+
+        compilePdf('dataurlnewwindow');
+
+
+    };
+
+
+    $scope.save = function(){
+
+        compilePdf('save');
+
+    };
+
+
+    function compilePdf(outputOption)
+    {
+        var pdf = new jsPDF('p', 'pt', 'letter'),
+            source = $templateCache.get(FavConfig.TEMPLATES.PRINT_HEADER)
+                +$(angular.element('.favorites-view')[0]).html(),
+            specialElementHandlers = {
+                '#no-print': function(element, renderer){
+                    return true
+                }
+            },
+
+            margins = {
+                top: 20,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+
+        pdf.fromHTML(
+            source,
+            margins.left,
+            margins.top,
+            {
+                'width': margins.width,
+                'elementHandlers': specialElementHandlers
+            },
+            function (dispose) {
+
+                pdf.output(outputOption,FavConfig.SAVE_FILENAME);
+            },
+            margins
+        )
+    }
+
+
 
 }).directive('favItem', ['MyFavorites','FavConfig',function(MyFavorites,FavConfig){
 

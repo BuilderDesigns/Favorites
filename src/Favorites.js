@@ -2,22 +2,22 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
     .constant('FavConfig',{
         EVENTS:{
             FAV_ADDED:          "favoriteAdded",
-            FAV_REMOVE:         "favoriteRemoved",
+            FAV_REMOVED:        "favoriteRemoved",
             DASHBOARD_OPENED:   "dashboardOpened",
             DASHBOARD_CANCELED: "dashboardCanceled",
             DASHBOARD_OK:       "dashboardOk",
             SAVE_EVENT:         "favoritesSaved"
         },
-        TEMPLATES:{
-            "FAVORITE_ITEM":''
-        },
         CSS_CLASSES:{
             DISABLED_FAV_LINK: "fav_disabled"
         },
-        OPTIONS:{
-            SAVING_ENABLED: true
-        }
-
+        TEMPLATES: {
+            FAV_ITEM: 'templates/favoriteItem.html',
+            DASHBOARD: 'templates/dashboard.html',
+            PRINT_HEADER: 'templates/printHeader.html'
+        },
+        SAVING_ENABLED: true,
+        SAVE_FILENAME: "MyFavorites"
     })
     .run(function($rootScope, MyFavorites, FavConfig, Fav) {
 

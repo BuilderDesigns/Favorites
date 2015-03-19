@@ -1,4 +1,4 @@
-angular.module('Favorites').service('MyFavorites',function($http){
+angular.module('Favorites').service('MyFavorites',['FavConfig','$rootScope',function(FavConfig,$rootScope){
 
     this.favorites = [];
 
@@ -33,6 +33,8 @@ angular.module('Favorites').service('MyFavorites',function($http){
 
         this.favorites.push(fav);
 
+        $rootScope.$emit(FavConfig.EVENTS.FAV_ADDED,fav);
+
         return true;
     };
 
@@ -44,6 +46,7 @@ angular.module('Favorites').service('MyFavorites',function($http){
             if (fav.id == this.favorites[i].id && fav.type == this.favorites[i].type) {
 
                 this.favorites.splice(i, 1);
+                $rootScope.$emit(FavConfig.EVENTS.FAV_REMOVED,fav);
             }
         }
 
@@ -71,4 +74,4 @@ angular.module('Favorites').service('MyFavorites',function($http){
     }
 
 
-});
+}]);

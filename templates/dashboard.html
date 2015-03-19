@@ -7,21 +7,28 @@
             <div class="modal-header">
 
                 <h3 class="modal-title">Favorites Dashboard</h3>
+                <div class="pull-right">
+                    <span class="glyphicon glyphicon-print" ng-click="print()"></span>
+                    <span class="glyphicon glyphicon-floppy-disk" ng-click="save()"></span>
 
+                </div>
             </div>
 
             <div class="modal-body">
 
-                <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
+                <div class="favorites-view">
 
-                    <div class="fav-type-title"><h4>{{key}}</h4></div>
+                    <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
 
-                    <div ng-repeat="fav in value track by $index">
+                        <div class="fav-type-title"><h4>{{key}}</h4></div>
 
-                        <fav-item></fav-item>
+                        <div ng-repeat="fav in value track by $index">
+
+                            <fav-item></fav-item>
+
+                        </div>
 
                     </div>
-
                 </div>
 
             </div>
