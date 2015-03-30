@@ -135,59 +135,14 @@ angular.module('Favorites').controller(
 
     function compilePdf(outputOption)
     {
-        var favView = $($('.favorites-view')[0]).html();
-        var html = $templateCache.get(FavConfig.TEMPLATES.PRINT_HEADER)+favView;
-
-        html2canvas($(html) , { onrendered : function( canvas ) {
-            var pdf = new jsPDF(), border = 10, width = 210-border*2;
-            pdf.addImage(
-                canvas.toDataURL( 'image/jpeg' , 0.98 ),
-                'JPEG',
-                border,
-                border,
-                width,
-                canvas.height*width/canvas.width
-            );
-
-
-            pdf.output(outputOption,FavConfig.SAVE_FILENAME);
-
-        } } );
 
 
 
-        /*
-        var pdf = new jsPDF('p', 'pt', 'letter'),
-            source = $templateCache.get(FavConfig.TEMPLATES.PRINT_HEADER)
-                +$(angular.element('.favorites-view')[0]).html(),
-            specialElementHandlers = {
-                '#no-print': function(element, renderer){
-                    return true
-                }
-            },
 
-            margins = {
-                top: 20,
-                bottom: 60,
-                left: 40,
-                width: 522
-            };
 
-        pdf.fromHTML(
-            source,
-            margins.left,
-            margins.top,
-            {
-                'width': margins.width,
-                'elementHandlers': specialElementHandlers
-            },
-            function (dispose) {
-
-                pdf.output(outputOption,FavConfig.SAVE_FILENAME);
-            },
-            margins
-        )*/
     }
+
+
 
 
 

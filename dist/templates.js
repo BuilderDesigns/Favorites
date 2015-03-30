@@ -89,8 +89,8 @@ module.run(["$templateCache", function($templateCache) {
     "\n" +
     "    <div class=\"fav-item-col3\">\n" +
     "\n" +
-    "        <a class=\"btn\" id=\"no-print\" href=\"{{fav.url}}\">Visit Detail</a>\n" +
-    "        <button class=\"btn\" id=\"no-print\" ng-click=\"remove(fav)\">Remove</button>\n" +
+    "        <a class=\"btn\" href=\"{{fav.url}}\">Visit Detail</a>\n" +
+    "        <button class=\"btn\" ng-click=\"remove(fav)\">Remove</button>\n" +
     "\n" +
     "    </div>\n" +
     "\n" +
