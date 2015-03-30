@@ -3,6 +3,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
         EVENTS:{
             FAV_ADDED:          "favoriteAdded",
             FAV_REMOVED:        "favoriteRemoved",
+            FAV_CHANGED:        "favoritesChanged",
             DASHBOARD_OPENED:   "dashboardOpened",
             DASHBOARD_CANCELED: "dashboardCanceled",
             DASHBOARD_OK:       "dashboardOk",
@@ -46,7 +47,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
         $rootScope.$watch('favorites', function(){
 
             MyFavorites.sync();
-
+            $rootScope.$emit(FavConfig.EVENTS.FAV_CHANGED,$rootScope.favorites);
             $rootScope.updateLinks();
 
         }, true);
@@ -122,7 +123,6 @@ angular.module('Favorites').controller(
 
         compilePdf('dataurlnewwindow');
 
-
     };
 
 
@@ -135,10 +135,6 @@ angular.module('Favorites').controller(
 
     function compilePdf(outputOption)
     {
-
-
-
-
 
     }
 
