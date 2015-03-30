@@ -51,7 +51,7 @@ gulp.task('fixtures', function() {
 })
 
 gulp.task('watch', function(){
-    gulp.watch([paths.app, paths.less, paths.fixtures], ['concat','less','fixtures','bower']);
+    gulp.watch([paths.app, paths.less, paths.fixtures], ['concat','less','fixtures']);
 });
 
 

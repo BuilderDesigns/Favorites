@@ -67,6 +67,10 @@ angular.module('Favorites').service('MyFavorites',['FavConfig','$rootScope',func
         return false;
     };
 
+    this.wipe = function(){
+        this.favorites = [];
+        window.localStorage.removeItem('favorites');
+    };
 
     this.sync = function()
     {

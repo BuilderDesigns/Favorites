@@ -24,6 +24,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
         $rootScope.favorites = MyFavorites.favorites;
 
+
         $rootScope.setupLinks = function(){
 
             $('.fav-item').each(function(){
@@ -80,6 +81,11 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
                 }
             });
         };
+
+        $rootScope.injectFavorites = function(favs){
+            MyFavorites.favorites = favs;
+        };
+
     } // end .run
 
 );

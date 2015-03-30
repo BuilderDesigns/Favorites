@@ -24,6 +24,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
         $rootScope.favorites = MyFavorites.favorites;
 
+
         $rootScope.setupLinks = function(){
 
             $('.fav-item').each(function(){
@@ -80,6 +81,11 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
                 }
             });
         };
+
+        $rootScope.injectFavorites = function(favs){
+            MyFavorites.favorites = favs;
+        };
+
     } // end .run
 
 );
@@ -306,6 +312,10 @@ angular.module('Favorites').service('MyFavorites',['FavConfig','$rootScope',func
         return false;
     };
 
+    this.wipe = function(){
+        this.favorites = [];
+        window.localStorage.removeItem('favorites');
+    };
 
     this.sync = function()
     {
