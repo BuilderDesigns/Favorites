@@ -7,7 +7,8 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
             DASHBOARD_OPENED:   "dashboardOpened",
             DASHBOARD_CANCELED: "dashboardCanceled",
             DASHBOARD_OK:       "dashboardOk",
-            SAVE_EVENT:         "favoritesSaved"
+            SAVE_EVENT:         "favoritesSaved",
+            EMAIL_CLICKED:      "favoritresPrint"
         },
         CSS_CLASSES:{
             DISABLED_FAV_LINK: "fav_disabled"
@@ -16,9 +17,8 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
             FAV_ITEM: 'templates/favoriteItem.html',
             DASHBOARD: 'templates/dashboard.html',
             PRINT_HEADER: 'templates/printHeader.html'
-        },
-        SAVING_ENABLED: true,
-        SAVE_FILENAME: "MyFavorites"
+        }
+
     })
     .run(function($rootScope, MyFavorites, FavConfig, Fav) {
 

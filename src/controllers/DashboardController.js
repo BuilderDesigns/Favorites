@@ -20,7 +20,7 @@ angular.module('Favorites').controller('DashboardController',function($scope,$ht
 
 angular.module('Favorites').controller(
     'DashboardInstanceController',
-    function($scope, $http, $modalInstance, MyFavorites, FavConfig,$templateCache){
+    function($scope, $http, $modalInstance, MyFavorites, FavConfig,$templateCache,Print){
 
     $scope.favorites = MyFavorites.favorites;
 
@@ -35,26 +35,8 @@ angular.module('Favorites').controller(
     };
 
     $scope.print = function(){
-
-        compilePdf('dataurlnewwindow');
-
+        Print.print();
     };
-
-
-    $scope.save = function(){
-
-        compilePdf('save');
-
-    };
-
-
-    function compilePdf(outputOption)
-    {
-
-    }
-
-
-
 
 
 }).directive('favItem', ['MyFavorites','FavConfig',function(MyFavorites,FavConfig){

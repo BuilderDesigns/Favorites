@@ -13,9 +13,11 @@ module.run(["$templateCache", function($templateCache) {
     "            <div class=\"modal-header\">\n" +
     "\n" +
     "                <h3 class=\"modal-title\">Favorites Dashboard</h3>\n" +
-    "                <div class=\"pull-right\">\n" +
-    "                    <span class=\"glyphicon glyphicon-print\" ng-click=\"print()\"></span>\n" +
-    "                    <span class=\"glyphicon glyphicon-floppy-disk\" ng-click=\"save()\"></span>\n" +
+    "                <div class=\"pull-right modal-right-links\">\n" +
+    "                    <span>\n" +
+    "                        <a href=\"#\" ng-click=\"print()\">Email Favorites</a>\n" +
+    "                    </span>\n" +
+    "\n" +
     "\n" +
     "                </div>\n" +
     "            </div>\n" +
