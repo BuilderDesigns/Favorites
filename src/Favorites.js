@@ -20,10 +20,11 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
         }
 
     })
-    .run(function($rootScope, MyFavorites, FavConfig, Fav) {
+    .run(function($rootScope, MyFavorites, FavConfig, Fav, Print) {
 
         $rootScope.favorites = MyFavorites.favorites;
 
+        $rootScope.Print = Print;
 
         $rootScope.setupLinks = function(){
 

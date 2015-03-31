@@ -24,6 +24,8 @@ angular.module('Favorites').controller(
 
     $scope.favorites = MyFavorites.favorites;
 
+    $scope.printuser = Print.printuser;
+
     $scope.ok = function () {
 
         $modalInstance.close();
@@ -35,6 +37,7 @@ angular.module('Favorites').controller(
     };
 
     $scope.print = function(){
+
         Print.print();
     };
 

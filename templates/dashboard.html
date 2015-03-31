@@ -9,7 +9,7 @@
                 <h3 class="modal-title">Favorites Dashboard</h3>
                 <div class="pull-right modal-right-links">
                     <span>
-                        <a href="#" ng-click="print()">Email Favorites</a>
+
                     </span>
 
 
@@ -17,21 +17,40 @@
             </div>
 
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="favorites-view">
 
-                <div class="favorites-view">
+                            <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
 
-                    <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
+                                <div class="fav-type-title"><h4>{{key}}</h4></div>
 
-                        <div class="fav-type-title"><h4>{{key}}</h4></div>
+                                <div ng-repeat="fav in value track by $index">
 
-                        <div ng-repeat="fav in value track by $index">
+                                    <fav-item></fav-item>
 
-                            <fav-item></fav-item>
+                                </div>
 
+                            </div>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+
+                        <h2>Send Favorites</h2>
+                        <form novalidate name="pform" >
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="printuser.firstName" placeholder="First Name" required />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" ng-model="printuser.lastName" placeholder="Last Name" required />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="email" type="email" ng-model="printuser.email" placeholder="Email" required  />
+                            </div>
+                            <button role="button" class="btn" type="submit" ng-disabled="pform.$invalid" ng-click="print(print)">Email</button>
+                        </form>
 
                     </div>
-                </div>
 
             </div>
 

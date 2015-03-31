@@ -20,10 +20,11 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
         }
 
     })
-    .run(function($rootScope, MyFavorites, FavConfig, Fav) {
+    .run(function($rootScope, MyFavorites, FavConfig, Fav, Print) {
 
         $rootScope.favorites = MyFavorites.favorites;
 
+        $rootScope.Print = Print;
 
         $rootScope.setupLinks = function(){
 
@@ -125,6 +126,8 @@ angular.module('Favorites').controller(
 
     $scope.favorites = MyFavorites.favorites;
 
+    $scope.printuser = Print.printuser;
+
     $scope.ok = function () {
 
         $modalInstance.close();
@@ -136,6 +139,7 @@ angular.module('Favorites').controller(
     };
 
     $scope.print = function(){
+
         Print.print();
     };
 
@@ -321,10 +325,20 @@ angular.module('Favorites')
         'FavConfig','$rootScope','MyFavorites', '$http',
         function(FavConfig,$rootScope,MyFavorites,$http){
 
+        this.printuser = {};
+
+        this.setPrintUser = function(user)
+        {
+            this.printuser = user;
+        };
+
         this.print = function(){
 
-
-            $rootScope.$emit(FavConfig.EVENTS.EMAIL_CLICKED,MyFavorites.favorites);
+            console.log(this.printuser);
+            $rootScope.$emit(FavConfig.EVENTS.EMAIL_CLICKED,{
+                favs: MyFavorites.favorites,
+                user: this.printuser
+            });
 
 
 
