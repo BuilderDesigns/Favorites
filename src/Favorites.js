@@ -42,8 +42,22 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
             });
         };
+        $rootScope.addClickEvents = function(){
+            $('.fav-link').each(function(){
+
+                $(this).on('click',function(){
+
+                    var fav = Fav.fromFavLink(this);
+
+                    MyFavorites.toggle(fav);
+
+                    $rootScope.$digest();
+                });
+            });
+        };
 
         $rootScope.setupLinks();
+        $rootScope.addClickEvents();
 
         $rootScope.$watch('favorites', function(){
 
@@ -53,17 +67,10 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
         }, true);
 
-        $('.fav-link').each(function(){
 
-            $(this).on('click',function(){
 
-                var fav = Fav.fromFavLink(this);
 
-                MyFavorites.toggle(fav);
 
-                $rootScope.$digest();
-            });
-        });
 
         $rootScope.updateLinks = function(){
 
@@ -84,6 +91,9 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
 
         $rootScope.injectFavorites = function(favs){
             MyFavorites.favorites = favs;
+            MyFavorites.sync();
+            $rootScope.updateLinks();
+
         };
 
     } // end .run
