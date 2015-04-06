@@ -334,14 +334,10 @@ angular.module('Favorites')
 
         this.print = function(){
 
-            console.log(this.printuser);
             $rootScope.$emit(FavConfig.EVENTS.EMAIL_CLICKED,{
                 favs: MyFavorites.favorites,
                 user: this.printuser
             });
-
-
-
         }
 
-}]);
+}]); 

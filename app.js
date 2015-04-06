@@ -19,7 +19,9 @@ angular.module('WebApp',['Favorites']).run(function($rootScope,$http){
             }),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
-            console.log(data);
+
+            
+
             return data;
         });
     })

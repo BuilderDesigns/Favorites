@@ -1,29 +1,37 @@
+<!-- start of favorites-tab -->
 <div class="favorites-tab">
 
+    <!-- start of DashboardController -->
     <div ng-controller="DashboardController">
 
         <script type="text/ng-template" id="FavoritesDashboardModal">
 
+            <!-- start of modal-header -->
             <div class="modal-header">
 
                 <h3 class="modal-title">Favorites Dashboard</h3>
                 <div class="pull-right modal-right-links">
-                    <span>
-
-                    </span>
-
-
                 </div>
-            </div>
 
+            </div><!-- end of modal-header -->
+
+            <!-- start of modal-body -->
             <div class="modal-body">
+
+
+                <!-- start of row -->
                 <div class="row">
-                    <div class="col-md-8">
+
+                    <!-- start of faves-col01 -->
+                    <div class="faves-col01">
+
+                        <!-- start of favorites-view -->
                         <div class="favorites-view">
 
+                            <!-- start of favorite-group -->
                             <div class="favorite-group" ng-repeat="(key, value) in favorites | groupBy: 'type'">
 
-                                <div class="fav-type-title"><h4>{{key}}</h4></div>
+                                <div class="fav-type-title"><h3>{{key}}</h3></div>
 
                                 <div ng-repeat="fav in value track by $index">
 
@@ -31,12 +39,16 @@
 
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+                            </div><!-- end of favorite-group -->
 
-                        <h2>Send Favorites</h2>
+                        </div><!-- end of favorites-view -->
+
+                    </div><!-- end of faves-col01 -->
+
+                    <!-- start of faves-col02 -->
+                    <div class="faves-col02">
+
+                        <h3>Send Favorites</h3>
                         <form novalidate name="pform" >
                             <div class="form-group">
                                 <input class="form-control" type="text" ng-model="printuser.firstName" placeholder="First Name" required />
@@ -47,30 +59,38 @@
                             <div class="form-group">
                                 <input class="form-control" name="email" type="email" ng-model="printuser.email" placeholder="Email" required  />
                             </div>
+                            <div class="clearfix"></div>
                             <button role="button" class="btn" type="submit" ng-disabled="pform.$invalid" ng-click="print(print)">Email</button>
                         </form>
 
-                    </div>
+                    </div><!-- end of faves-col02 -->
 
-            </div>
 
+
+                </div><!-- end of row -->
+
+            </div><!-- end of modal-body -->
+
+            <!-- start of modal-footer -->
             <div class="modal-footer">
 
                 <button class="btn btn-primary" ng-click="ok()">OK</button>
-
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 
-            </div>
+            </div><!-- end of modal-footer -->
 
         </script>
+
 
         <button class="btn btn-default" ng-click="open()" ng-if="favorites.length">
 
             My Favorites
 
-            <badge class="fav-count-badge">{{favorites.length}}</badge>
+            <span class="badge">{{favorites.length}}</span>
 
         </button>
 
-    </div>
-</div>
+
+    </div><!-- end of DashboardController -->
+
+</div><!-- end of favorites-tab -->
