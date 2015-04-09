@@ -340,4 +340,4 @@ angular.module('Favorites')
             });
         }
 
-}]); 
+}]);

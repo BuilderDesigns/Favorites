@@ -65,6 +65,9 @@ module.run(["$templateCache", function($templateCache) {
     "                            <div class=\"form-group\">\n" +
     "                                <input class=\"form-control\" name=\"email\" type=\"email\" ng-model=\"printuser.email\" placeholder=\"Email\" required  />\n" +
     "                            </div>\n" +
+    "                            <div class=\"form-group\">\n" +
+    "                                <input class=\"form-control\" name=\"phone\" type=\"phone\" ng-model=\"printuser.phone\" placeholder=\"Phone\"  />\n" +
+    "                            </div>\n" +
     "                            <div class=\"clearfix\"></div>\n" +
     "                            <button role=\"button\" class=\"btn\" type=\"submit\" ng-disabled=\"pform.$invalid\" ng-click=\"print(print)\">Email</button>\n" +
     "                        </form>\n" +
