@@ -100,7 +100,7 @@ angular.module('Favorites', ['ui.bootstrap', 'Favorites.templates','angular.filt
     } // end .run
 
 );
-angular.module('Favorites').controller('DashboardController',function($scope,$http,$modal, MyFavorites){
+angular.module('Favorites').controller('DashboardController',function($scope, $http, $modal, MyFavorites){
 
     $scope.favorites = MyFavorites.favorites;
 
